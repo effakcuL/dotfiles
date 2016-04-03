@@ -1,0 +1,12 @@
+[user]
+    email = lucasb.eyer.be@gmail.com
+    name = lucasb-eyer
+
+[color]
+    ui = auto
+
+[core]
+    excludesfile = ~/.gitignore
+
+[push]
+    default = simple

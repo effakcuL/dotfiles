@@ -88,11 +88,6 @@ def main():
             return 1
 
     # Pull in Vundle (for vim, should make it a submodule at some point?)
-    if not exists(here('_vim/bundle/vundle')):
-        if call(['git', 'clone', 'https://github.com/gmarik/vundle.git', here('_vim/bundle/vundle')]) != 0:
-            if input('Error getting Vundle. Continue setup? [y/N]') not in ('y', 'Y'):
-                return 1
-
     global backup
     backup = input('Delete existing files (no backs them up)? [y/N]: ') not in ('y', 'Y')
 
@@ -112,15 +107,7 @@ def main():
     here_to_home('vimrc')
     here_to_home('vim')
     here_to_home('tmux.conf')
-    here_to_home('inputrc')
-    here_to_home('Xresources')
-    here_to_home('gitconfig')
-    here_to_home('gitignore')
-    here_to_home('pythonrc.py')
-    here_to_home('juliarc.jl')
     here_to_home('ssh_config', 'ssh/config')
-    here_to_home('config/awesome')
-    here_to_home('config/htop')
 
     # Disabled ones don't seem to work.
     nb_ext(['autoscroll.js'], enable=False)
@@ -131,23 +118,10 @@ def main():
     nb_ext(['ExecuteTime.js', 'ExecuteTime.css'], 'execute_time')
     nb_ext(['main.js', 'main.css'], 'toc')
 
-    if os.path.isdir(eu('~/.config/fish')):
-        here_to_home('config/fish/solarized.fish')
-        here_to_home('config/fish/config.fish')
-        here_to_home('config/fish/functions/fish_prompt.fish')
-        here_to_home('config/fish/functions/grolschnext.fish')
-        here_to_home('config/fish/functions/grolschpp.fish')
-        here_to_home('config/fish/functions/grolschprev.fish')
-    else:
-        print("WARNING: skipped fish, it seems not to be installed.")
-
     # Reload some stuff
-    if 'DISPLAY' in os.environ:
-        call(['xrdb', '-nocpp', '-merge', '~/.Xresources'], shell=True)
-
     print("Don't forget to possibly run the following: ")
-    print("- Open vim and run `:BundleInstall` or `:BundleUpdate`")
-    print("- `cd _vim/bundle/YouCompleteMe/` and `./install.sh --clang-completer`")
+    print("- Open vim and run `:PlugInstall`")
+    print("- `cd _vim/plugged/YouCompleteMe/` and `python3 install.py --clangd-completer`")
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,1 @@
+/home/falcon/.vim/plugged/ultisnips/ftdetect/snippets.vim

@@ -30,7 +30,7 @@ DUNNO="\[\033[1;38m\]"
 
 prompt_command () {
     local err_prompt=`prt_ret`
-    export PS1="${err_prompt}`prt_virtualenv`[`prt_username`@`prt_hostname`:`prt_dir` `prt_time`]`prt_git`\n${BLUE}$ ${DEFAULT}"
+    export PS1="${err_prompt}`prt_virtualenv`[`prt_username`@`prt_hostname`:`prt_dir` `parse_hg_branch` `prt_time` ]\n${BLUE}$ ${DEFAULT}"
 }
 
 PROMPT_COMMAND=prompt_command
@@ -68,45 +68,48 @@ prt_virtualenv () {
     echo "$pyenv$nodeenv$goenv"
 }
 
-prt_git () {
-    # Check if inside a git repo
-    if ! git rev-parse --is-inside-work-tree >&/dev/null 2>&1; then
-        return 0
-    fi
-
-    # Capture the output of the "git status" command.
-    git_status=`git status 2> /dev/null`
-
-    # Set color based on clean/staged/dirty.
-    if [[ ${git_status} =~ "working directory clean" ]]; then
-        state="${GREEN}"
-    elif [[ ${git_status} =~ "Changes to be committed" ]]; then
-        state="${YELLOW}"
-    else
-        state="${RED}"
-    fi
-
-    # Get the name of the branch.
-    branch=`git symbolic-ref --quiet --short HEAD`
-    if [[ $? -gt 0 ]]; then
-        branch=`git log -n 1 --pretty=%h HEAD`
-    fi
-
-    # Set arrow icon based on status against remote.
-    remote=`git config branch.${branch}.remote`
-    ahead=`git rev-list --count $remote/${branch}..HEAD`
-    behind=`git rev-list --count HEAD..$remote/$branch`
-    if [[ $ahead -gt 0 ]] && [[ $behind -gt 0 ]]; then
-        remotestat="↕+$ahead-$behind"
-    elif [[ $ahead -gt 0 ]]; then
-        remotestat="↑$ahead"
-    elif [[ $behind -gt 0 ]]; then
-        remotestat="↓$behind"
-    fi
-
-    # Set the final branch string.
-    echo "${state}(${branch})${remotestat}${DEFAULT}"
-}
+parse_hg_branch() {
+        hg branch 2> /dev/null | sed -e 's/\(.*\)/(\1)/'
+    }
+#prt_git () {
+#    # Check if inside a git repo
+#    if ! git rev-parse --is-inside-work-tree >&/dev/null 2>&1; then
+#        return 0
+#    fi
+#
+#    # Capture the output of the "git status" command.
+#    git_status=`git status 2> /dev/null`
+#
+#    # Set color based on clean/staged/dirty.
+#    if [[ ${git_status} =~ "working directory clean" ]]; then
+#        state="${GREEN}"
+#    elif [[ ${git_status} =~ "Changes to be committed" ]]; then
+#        state="${YELLOW}"
+#    else
+#        state="${RED}"
+#    fi
+#
+#    # Get the name of the branch.
+#    branch=`git symbolic-ref --quiet --short HEAD`
+#    if [[ $? -gt 0 ]]; then
+#        branch=`git log -n 1 --pretty=%h HEAD`
+#    fi
+#
+#    # Set arrow icon based on status against remote.
+#    remote=`git config branch.${branch}.remote`
+#    ahead=`git rev-list --count $remote/${branch}..HEAD`
+#    behind=`git rev-list --count HEAD..$remote/$branch`
+#    if [[ $ahead -gt 0 ]] && [[ $behind -gt 0 ]]; then
+#        remotestat="↕+$ahead-$behind"
+#    elif [[ $ahead -gt 0 ]]; then
+#        remotestat="↑$ahead"
+#    elif [[ $behind -gt 0 ]]; then
+#        remotestat="↓$behind"
+#    fi
+#
+#    # Set the final branch string.
+#    echo "${state}(${branch})${remotestat}${DEFAULT}"
+#}
 
 prt_username () {
     who=`whoami`

@@ -24,6 +24,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 "Code Completion
 "Cpp
 "vim lsp
@@ -235,6 +236,8 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+set timeoutlen=500
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')

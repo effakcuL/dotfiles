@@ -112,9 +112,6 @@ set runtimepath+=~/.vim/plugged/ultisnips
 "Calendar
 "Plug 'mattn/calendar-vim'
 
-"Switch Header<->Source
-Plug 'ericcurtin/CurtineIncSw.vim'
-
 "Adapt QuickFix
 "Plug 'yssl/QFEnter'
 
@@ -135,20 +132,16 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 let g:gutentags_plus_switch = 1
 let g:gutentags_define_advanced_commands = 1
 
-"let g:LanguageClient_useVirtualText = 'No'
-"let g:ycm_server_python_interpreter='/usr/bin/python3'
-
-map <F2> :Dispatch /home/falcon/Code/samuBuild/tests/AssistanceVisitor_Test_Run<CR> 
+map <F2> :Dispatch /home/falcon/Code/samuBuild/tests/AssistanceVisitor_Test_Run<CR>
 map <F3> :cclose<CR>
 map <F4> :vsplit %<CR>
 " mapping for switching between header and source
-map <F5> :vsplit %<CR> :call CurtineIncSw()<CR>
-map <F6> :ClangFormat<CR> 
+map <F5> :vsplit <bar>CocCommand clangd.switchSourceHeader<CR>
+map <F6> :ClangFormat<CR>
 map <F7> :hi! link Comment Ignore<CR>
 map <F8> :hi! link Comment Comment<CR>
 
 set makeprg=make\ -j8\ \--no-print-directory\ -C\ /home/falcon/Code/samuBuild
-"set iskeyword+=:
 
 "Make shift K look for std::<word under cursor> if regular man does not find
 "anything... needs stdman installed
@@ -174,34 +167,6 @@ let maplocalleader=","
 " Search and replace the word under the cursor
 noremap <leader>ss :%s/\<<C-r><C-w>\>/
 
-"let g:qfenter_keymap = {}
-"let g:qfenter_keymap.open = ['<Leader><CR>', '<2-LeftMouse>']
-"let g:qfenter_keymap.vopen = ['<CR>']
-"let g:qfenter_keymap.hopen = ['<Leader><Space>']
-"let g:qfenter_keymap.topen = ['<Leader><Tab>']
-"if executable('clangd')
-"    augroup lsp_clangd
-"        autocmd!
-"        autocmd User lsp_setup call lsp#register_server({
-"                    \ 'name': 'clangd',
-"                    \ 'cmd': {server_info->['clangd']},
-"                    \ 'whitelist': ['h','c', 'cpp', 'objc', 'objcpp'],
-"                    \ })
-"        autocmd FileType h setlocal omnifunc=lsp#complete
-"        autocmd FileType c setlocal omnifunc=lsp#complete
-"        autocmd FileType cpp setlocal omnifunc=lsp#complete
-"        autocmd FileType objc setlocal omnifunc=lsp#complete
-"        autocmd FileType objcpp setlocal omnifunc=lsp#complete
-"    augroup end
-"endif
-"let g:LanguageClient_serverCommands = {
-"  \ 'cpp': ['clangd'],
-"  \ }
-
-"nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-"nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-"nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-" use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -216,6 +181,7 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 "set keywordprg=:call\ <SID>show_documentation()
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <leader>gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)

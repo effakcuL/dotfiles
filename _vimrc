@@ -23,6 +23,7 @@ Plug 'junegunn/fzf.vim'
 "Needs sudo apt install global
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
+Plug 'puremourning/vimspector'
 
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 "Code Completion
@@ -51,7 +52,7 @@ Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 "GDB
-Plug 'vim-scripts/Conque-GDB'
+"Plug 'vim-scripts/Conque-GDB'
 
 "Clang-Format
 Plug 'kana/vim-operator-user'
@@ -78,6 +79,9 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+let g:vimspector_base_dir='/home/falcon/.vim/plugged/vimspector'
+let g:vimspector_enable_mappings = 'HUMAN'
+"packadd! vimspector
 "let g:deoplete#enable_at_startup = 1
 "let g:deoplete#auto_complete=0
 "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"

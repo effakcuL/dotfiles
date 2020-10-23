@@ -56,31 +56,6 @@ def here(f):
 def here_to_home(name, toname=None):
     link_with_backup(here('_' + name), '~/.' + (toname if toname else name))
 
-
-# Install extensions.
-def nb_ext(files, subdir='', prefix='_jupyter/nbextensions', enable=True):
-    if not jupyter_nb:
-        print("WARNING: Couldn't import Jupyter, skipped nbext.")
-        return
-
-    # Assumption: the first entry in `files` is the main file.
-    print("Jupyter nbext", pjoin(subdir, files[0]))
-
-    makedirs(pjoin(jupyter_data_dir(), 'nbextensions', subdir))
-
-    for fname in files:
-        install_nbextension(pjoin(prefix, subdir, fname),
-            destination=pjoin(subdir, fname),
-            user=True,
-            symlink=True,
-            verbose=False)
-    ConfigManager().update('notebook', {
-        'load_extensions': {
-            pjoin(subdir, files[0][:-3]): True if enable else None,
-        }
-    })
-
-
 def main():
     # Pull in the plugins
     if call(['git', 'submodule', 'update', '--init']) != 0:
@@ -108,20 +83,12 @@ def main():
     here_to_home('vim')
     here_to_home('tmux.conf')
     here_to_home('ssh_config', 'ssh/config')
-
-    # Disabled ones don't seem to work.
-    nb_ext(['autoscroll.js'], enable=False)
-    nb_ext(['breakpoints.js'], enable=False)
-    nb_ext(['init_cell.js'])
-    nb_ext(['notify.js'])
-    nb_ext(['main.js', 'button.png'], 'equation_numbering')
-    nb_ext(['ExecuteTime.js', 'ExecuteTime.css'], 'execute_time')
-    nb_ext(['main.js', 'main.css'], 'toc')
+    here_to_home('config_nvim', 'config/nvim')
 
     # Reload some stuff
     print("Don't forget to possibly run the following: ")
     print("- Open vim and run `:PlugInstall`")
-    print("- `cd _vim/plugged/YouCompleteMe/` and `python3 install.py --clangd-completer`")
+    print("- Open vim and run `:CocInstall coc-clangd` (needs npm)")
 
 if __name__ == '__main__':
     main()

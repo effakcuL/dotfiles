@@ -1,128 +1,51 @@
-filetype plugin indent on
-
-"Replace tabs with 4 spaces
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-"Allow Folding according to syntax
-set foldmethod=syntax
-set foldlevelstart=20
-set hlsearch
-
-
 "Install Plugins
 call plug#begin()
 
-"Install fuzzy search for files in current folder( :Files ) or c++ Tags like
-"Methods or symbols ( :Tags )
+"" General Configuration
+Plug 'liuchengxu/vim-better-default'
+" Show possible commands
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-dispatch'
+
+Plug 'easymotion/vim-easymotion'
+
+" ColorScheme
+Plug 'morhetz/gruvbox'
+
 Plug 'junegunn/fzf', { 'dir': '~/.bin/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+
+"" VersionControl
+Plug 'tpope/vim-fugitive'
+
+
+"" Coding
+" Language Server Protocol client
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+" Debugging
+Plug 'puremourning/vimspector'
 
 "Install Tag generation
 "Needs sudo apt install global
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
-Plug 'puremourning/vimspector'
-
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-"Code Completion
-"Cpp
-"vim lsp
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'ajh17/vimcompletesme'
-"Plug 'mattn/vim-lsp-settings'
-"Plug 'Valloric/YouCompleteMe'
-"Python
-"Plug 'davidhalter/jedi-vim'
-"Plug 'deoplete-plugins/deoplete-jedi'
-"Plug 'dense-analysis/ale'
-"let g:ale_completion_enabled=1
-"let g:ale_set_balloons=1
-
-"Plug 'autozimu/LanguageClient-neovim', {
-"    \ 'branch': 'next',
-"    \ 'do': 'bash install.sh',
-"    \ }
-"Color Scheme
-Plug 'morhetz/gruvbox'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-"GDB
-"Plug 'vim-scripts/Conque-GDB'
 
 "Clang-Format
-Plug 'kana/vim-operator-user'
 Plug 'rhysd/vim-clang-format'
 
-"OrgMode
-"Plug 'jceb/vim-orgmode'
-
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-dispatch'
-
-Plug 'tpope/vim-sensible'
-Plug 'liuchengxu/vim-better-default'
-Plug 'easymotion/vim-easymotion'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-
-"Zettelkasten
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:vimspector_base_dir='/home/falcon/.vim/plugged/vimspector'
-let g:vimspector_enable_mappings = 'HUMAN'
-"packadd! vimspector
-"let g:deoplete#enable_at_startup = 1
-"let g:deoplete#auto_complete=0
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"set deoplete-options-auto_complete=0
-"call deoplete#custom#option('auto_complete',0)
-" Track the engine.
-"Plug 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. Add this if you want them:
-"Plug 'honza/vim-snippets'
-"Plug 'wellle/targets.vim'
-
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<c-e>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"let g:UltiSnipsSnippetDirectories=["~/.vim/plugged/vim-snippets/UltiSnips/,~/.vim/plugged/ultisnips/"]
-
-
-" If you want :UltiSnipsEdit to split your window.
-"let g:UltiSnipsEditSplit="vertical"
-
-set path+="/home/falcon/Nextcloud/Zettelkasten/"
-set suffixesadd+=.md
-
-set runtimepath+=~/.vim/plugged/ultisnips
-
-"OrgMode config
-:let g:org_agenda_files=['~/Nextcloud/org/*.org']
-
-"Calendar
-"Plug 'mattn/calendar-vim'
-
-"Adapt QuickFix
-"Plug 'yssl/QFEnter'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
-"let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 
+"let g:vimspector_enable_mappings = 'HUMAN'
+"packadd! vimspector
+"let g:vimspector_base_dir='/home/falcon/.vim/plugged/vimspector'
 let g:clang_format#detect_style_file = 1
 "let g:clang_format#auto_format = 1
 
@@ -147,9 +70,6 @@ map <F8> :hi! link Comment Comment<CR>
 
 set makeprg=make\ -j8\ \--no-print-directory\ -C\ /home/falcon/Code/samuBuild
 
-"Make shift K look for std::<word under cursor> if regular man does not find
-"anything... needs stdman installed
-set keywordprg=${HOME}/.vim/manHelper.sh
 set clipboard=unnamedplus
 set mouse=a
 
@@ -167,7 +87,7 @@ let maplocalleader=","
 :nnoremap <leader>m :wa<CR> :Make<CR>
 :nnoremap <leader>i gg=G<C-O><C-O>
 ":nnoremap <space> za
-
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 " Search and replace the word under the cursor
 noremap <leader>ss :%s/\<<C-r><C-w>\>/
 
@@ -206,6 +126,7 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+nmap <leader>e :call vimspector#Launch()<CR>
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 set timeoutlen=500
 " Use <c-space> to trigger completion.
@@ -219,3 +140,4 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
